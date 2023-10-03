@@ -1,0 +1,65 @@
+
+# Checklist
+
+## Server
+
+- User
+  - GQL
+    - Type
+    - Query
+      - all
+      - single (with id)
+    - Mutation
+      - Add
+  - Prisma
+    - Get all
+    - Get by ID
+    - Add
+- Event
+  - GQL
+    - Type
+    - Query
+      - all
+      - single (with id)
+    - Mutation
+      - Add
+  - Prisma
+    - Get all
+    - Get by ID
+    - Add
+- Task
+  - GQL
+    - Type
+    - Query
+      - all
+      - single (with id)
+    - Mutation
+      - Add
+  - Prisma
+    - Get all
+    - Get by ID
+    - Add
+- Shift
+  - GQL
+    - Type
+    - Query
+      - all
+      - single (with id)
+    - Mutation
+      - Add
+  - Prisma
+    - Get all
+    - Get by ID
+    - Add
+- Record
+  - GQL
+    - Type
+    - Query
+      - all
+      - single (with id)
+    - Mutation
+      - Add
+  - Prisma
+    - Get all
+    - Get by ID
+    - Add
