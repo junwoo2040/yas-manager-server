@@ -1,6 +1,6 @@
 import "./paths";
 
-import express, { Express } from "express";
+import express from "express";
 import cors, { CorsOptions } from "cors";
 
 import graphQLRouter from "@routes/graphql";
@@ -10,7 +10,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const app: Express = express();
+const app = express();
 const port = process.env.PORT;
 
 const allowedOrigins = ["http://localhost:8000", "http://localhost:5173"];

@@ -54,14 +54,11 @@ export const PaymentRecordType: GraphQLObjectType = new GraphQLObjectType({
 export const RecordType: GraphQLUnionType = new GraphQLUnionType({
     name: "Record",
     types: [DonationRecordType, SaleRecordType, PaymentRecordType],
-    // @ts-ignore
     resolveType: (value) => {
         return value.donor
-            ? DonationRecordType
+            ? "DonationRecord"
             : value.product
-            ? SaleRecordType
-            : value.description
-            ? PaymentRecordType
-            : undefined;
+            ? "SaleRecord"
+            : "PaymentRecord";
     },
 });

@@ -14,8 +14,38 @@ export const getRecordById = async (id: string) => {
 export const addRecord = async (newRecord: Record) => {
     return await prisma.record.create({
         data: {
-            ...newRecord,
-            authorId: newRecord.authorId,
+            type: newRecord.type,
+            check: newRecord.check,
+            date: newRecord.date,
+            note: newRecord.note,
+            event: newRecord.eventId
+                ? {
+                      connect: {
+                          id: newRecord.eventId,
+                      },
+                  }
+                : undefined,
+            author: {
+                connect: {
+                    id: newRecord.authorId,
+                },
+            },
+            donor: newRecord.donor,
+            product: newRecord.productId
+                ? {
+                      connect: {
+                          id: newRecord.productId,
+                      },
+                  }
+                : undefined,
+            quantity: newRecord.quantity,
+            buyer: newRecord.buyer,
+            description: newRecord.description,
+        },
+        include: {
+            event: newRecord.eventId !== undefined,
+            author: true,
+            product: newRecord.productId !== undefined,
         },
     });
 };

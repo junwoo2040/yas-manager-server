@@ -15,9 +15,9 @@ import {
 import { GraphQLDate } from "@models/typedef";
 
 import { addRecord } from "./database";
-import { RecordType } from "@prisma/client";
 import { getUserByID } from "@models/user/database";
 import { getEventById } from "@models/event/database";
+import { getProductById } from "@models/product/database";
 
 export default {
     addDonationRecord: {
@@ -27,18 +27,15 @@ export default {
             check: { type: new GraphQLNonNull(GraphQLFloat) },
             date: { type: new GraphQLNonNull(GraphQLDate) },
             note: { type: GraphQLString },
-            event: { type: GraphQLID },
-            author: { type: new GraphQLNonNull(GraphQLID) },
+            eventId: { type: GraphQLID },
+            authorId: { type: new GraphQLNonNull(GraphQLID) },
             donor: { type: new GraphQLNonNull(GraphQLString) },
         },
         resolve: async (src: any, args: any) => {
             const { id, type, check, date, note, eventId, authorId, donor } =
                 await addRecord({ ...args });
 
-            console.log(authorId);
-
             const author = await getUserByID(authorId);
-
             const event = eventId ? await getEventById(eventId) : null;
 
             return {
@@ -62,9 +59,9 @@ export default {
             check: { type: new GraphQLNonNull(GraphQLFloat) },
             date: { type: new GraphQLNonNull(GraphQLDate) },
             note: { type: GraphQLString },
-            event: { type: GraphQLID },
-            author: { type: new GraphQLNonNull(GraphQLID) },
-            product: { type: new GraphQLNonNull(GraphQLID) },
+            eventId: { type: GraphQLID },
+            authorId: { type: new GraphQLNonNull(GraphQLID) },
+            productId: { type: new GraphQLNonNull(GraphQLID) },
             quantity: { type: new GraphQLNonNull(GraphQLInt) },
             buyer: { type: new GraphQLNonNull(GraphQLString) },
         },
@@ -82,7 +79,24 @@ export default {
                 buyer,
             } = await addRecord({ ...args });
 
-            return await addRecord({ ...args });
+            const author = await getUserByID(authorId);
+            const product = productId ? await getProductById(productId) : null;
+            const event = eventId ? await getEventById(eventId) : null;
+
+            return {
+                base: {
+                    id,
+                    type,
+                    check,
+                    date,
+                    note,
+                    event,
+                    author,
+                },
+                product,
+                quantity,
+                buyer,
+            };
         },
     },
     addPaymentRecord: {
@@ -92,8 +106,8 @@ export default {
             check: { type: new GraphQLNonNull(GraphQLFloat) },
             date: { type: new GraphQLNonNull(GraphQLDate) },
             note: { type: GraphQLString },
-            event: { type: GraphQLID },
-            author: { type: new GraphQLNonNull(GraphQLID) },
+            eventId: { type: GraphQLID },
+            authorId: { type: new GraphQLNonNull(GraphQLID) },
             description: { type: new GraphQLNonNull(GraphQLString) },
         },
         resolve: async (src: any, args: any) => {
@@ -108,7 +122,21 @@ export default {
                 description,
             } = await addRecord({ ...args });
 
-            return {};
+            const author = await getUserByID(authorId);
+            const event = eventId ? await getEventById(eventId) : null;
+
+            return {
+                base: {
+                    id,
+                    type,
+                    check,
+                    date,
+                    note,
+                    event,
+                    author,
+                },
+                description,
+            };
         },
     },
 };
