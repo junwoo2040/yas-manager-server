@@ -6,7 +6,5 @@
     "printWidth": 80,
     "bracketSpacing": true,
     "endOfLine": "lf",
-    "plugins": [
-        "prettier-plugin-prisma"
-    ]
+    "plugins": ["prettier-plugin-prisma"]
 }

@@ -1,34 +1,34 @@
-// Path alias setup
-import "./paths";
+import "./setup";
 
 // Express server & CORS config
 import express from "express";
 import cors, { CorsOptions } from "cors";
 
-// Routers
-import graphQLRouter from "@routes/graphql";
-import playgroundRouter from "@routes/playground";
+// GraphQL Yoga
+import { createYoga } from "graphql-yoga";
 
-// Environment variables
-import dotenv from "dotenv";
-dotenv.config();
+// Schema
+import { schema } from "@models/schema";
+
+// Constants
 const port = process.env.PORT;
+const allowedOrigins = ["http://localhost:8000", "http://localhost:5173"];
 
 // Create new express server
 const app = express();
 
 // Create CORS config
-const allowedOrigins = ["http://localhost:8000", "http://localhost:5173"];
 const options: CorsOptions = {
   origin: allowedOrigins,
 };
 
-// Use created CORS policy
 app.use(cors(options));
 
+// Create GraphQL Yoga
+const yoga = createYoga({ schema });
+
 // Add routes
-app.use("/graphql", graphQLRouter);
-app.use("/playground", playgroundRouter);
+app.use(yoga.graphqlEndpoint, yoga);
 
 // Run server
 app.listen(port, () => {
